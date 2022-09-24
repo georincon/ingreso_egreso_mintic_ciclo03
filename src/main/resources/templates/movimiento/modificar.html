@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos del movimiento</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}" >
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.0.0/css/all.min.css}" >
+    <link rel="stylesheet" th:href="@{/css/css-footer.css}">
+</head>
+<body>
+    <header th:replace="layout/plantilla :: header"></header>
+    <section th:replace="layout/plantilla :: mainIndex"></section>
+
+    <section>
+        <div class="container">
+            <div class="card">
+                <h4 class="card-title">Datos de usuario</h4>
+                <div class="card-body">
+
+                    <form id="customer-form" th:action="@{/movimientos/guardar}" method="post" th:object="${movimiento}">
+                        <input type="hidden" name="idMovimiento" th:field="*{idMovimiento}">
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="monto">Monto </label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="monto" th:field="*{monto}" placeholder="Monto"/>
+                            </div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('monto')}" th:errors="*{monto}"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="tipoMovimiento">Tipo de Movimiento</label>
+                            <div class="col-sm-10">
+                                <select th:field="*{tipoMovimiento}" name="tipoMovimiento" class="custom-select" style="width:100%!important;height:100%!important;">
+                                    <option value="" selected>Seleccione tipo de Rol</option>
+                                    <option th:each="tipoMovimiento : ${T(com.upjavago.proyecto_ciclo03.entity.TipoMovimiento).values()}"
+                                            th:value="${tipoMovimiento}"
+                                            th:text="${tipoMovimiento}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('tipoMovimiento')}" th:errors="*{tipoMovimiento}"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="concepto">Concepto</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:field="*{concepto}" id="concepto" placeholder="Concepto">
+                            </div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('concepto')}" th:errors="*{concepto}"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="usuario">Usuario </label>
+                            <div class="col-sm-10">
+                                <select th:field="*{usuario.idUsuario}" name="usuario" class="custom-select" style="width:100%!important; height:100%!important; ">
+                                    <option value="0" selected>Seleccione el Usuario</option>
+                                    <option th:each="usuario : ${usuarios}"
+                                            th:value="${usuario.idUsuario}"
+                                            th:text="${usuario.nombre}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="alert alert-warning" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
+                        </div>
+
+                        <div id="buttons" class="py-4 mb-4 bg-light">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a th:href="@{/movimientos/listar}" class="btn btn-ligth btn-block">
+                                            <i class="fas fa-arrow-left"></i> Cancelar
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-success btn-block">
+                                            <i class="fas fa-check"></i> Guardar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer th:replace="layout/plantilla :: footer"></footer>
+    <script th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/popper/js/2.9.3/umd/popper.min.js}"></script>
+</body>
+</html>
